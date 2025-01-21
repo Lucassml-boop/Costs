@@ -7,24 +7,24 @@ import styles from "./Newproject.module.css";
 function Newproject() {
     const navigate = useNavigate();
 
-    function createPost(projects) {
-        // Inicializa cost e services
-        projects.cost = 0;
-        projects.services = [];
+    function createPost(project) {
+        // Inicializa os valores padrão
+        project.cost = 0;
+        project.services = [];
 
         fetch("http://localhost:5000/projects", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
             },
-            body: JSON.stringify(projects),
+            body: JSON.stringify(project),
         })
             .then((resp) => resp.json())
             .then((data) => {
                 console.log("Projeto criado com sucesso:", data);
-
-                // Redireciona o usuário para a página de projetos
-                navigate("/projects", { state: { message: "Projeto criado com sucesso!" } });
+                navigate("/projects", {
+                    state: { message: "Projeto criado com sucesso!" },
+                });
             })
             .catch((err) => console.error("Erro ao criar o projeto:", err));
     }

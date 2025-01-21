@@ -7,15 +7,21 @@ function Select({ options = [], text, name, handleOnChange, value }) {
             <select
                 name={name}
                 id={name}
-                onChange={handleOnChange} 
-                value={value || ''} 
+                onChange={handleOnChange}
+                value={value || ''}
             >
-                <option value="">Selecione uma opção</option> {}
-                {options.map((option) => (
-                    <option value={option.id} key={option.id}>
-                        {option.name}
-                    </option>
-                ))}
+                <option value="" disabled>
+                    Selecione uma opção
+                </option>
+                {options.length > 0 ? (
+                    options.map((option) => (
+                        <option value={option.id} key={option.id}>
+                            {option.name}
+                        </option>
+                    ))
+                ) : (
+                    <option disabled>Nenhuma opção disponível</option>
+                )}
             </select>
         </div>
     );

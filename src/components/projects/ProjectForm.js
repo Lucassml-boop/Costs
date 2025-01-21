@@ -8,11 +8,9 @@ import styles from "./ProjectForm.module.css";
 
 function ProjectForm({ handleSubmit, btnText, projectData }) {
     const [categories, setCategories] = useState([]);
-    const [project, setProject] = useState(projectData || { 
-        name: "", 
-        budget: "", 
-        category_id: "" 
-    });
+    const [project, setProject] = useState(
+        projectData || { name: "", budget: "", category_id: "" }
+    );
 
     useEffect(() => {
         fetch("http://localhost:5000/categories")
@@ -22,18 +20,17 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
     }, []);
 
     function handleChange(e) {
-        console.log("Campo alterado:", e.target.name, e.target.value);
         setProject({ ...project, [e.target.name]: e.target.value });
-    };
+    }
 
-    function handleCategory(e){
+    function handleCategory(e) {
+        const selectedCategory = e.target.value;
+        const categoryName = e.target.options[e.target.selectedIndex].text;
         setProject({
             ...project,
-             category: {
-            id: e.target.value,
-            name: e.target.options[e.target.selectedIndex].text,
-        },
-    })
+            category_id: selectedCategory,
+            category: { id: selectedCategory, name: categoryName },
+        });
     }
 
     const submit = (e) => {
@@ -49,7 +46,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
                 name="name"
                 placeholder="Insira o nome do projeto"
                 handleOnChange={handleChange}
-                value={project.name ? project.name : ''}
+                value={project.name}
             />
             <Input
                 type="number"
@@ -57,15 +54,14 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
                 name="budget"
                 placeholder="Insira o orçamento total"
                 handleOnChange={handleChange}
-                value={project.budget ? project.budget : ''}
-                
+                value={project.budget}
             />
             <Select
                 name="category_id"
                 text="Selecione a categoria"
                 options={categories}
                 handleOnChange={handleCategory}
-                value={project.category ? project.category_id: ''}
+                value={project.category_id}
             />
             <SubmitButton text={btnText} />
         </form>
