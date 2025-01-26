@@ -5,6 +5,8 @@ import {useState, useEffect, use} from "react"
 
 import Loading from '../layouts/Loading'
 import Container from '../layouts/Container'
+import ProjectForm from '../projects/ProjectForm'
+import Message from '../layouts/Message'
 
 
 
@@ -13,6 +15,9 @@ function Project(){
 
     const [project, setProject] = useState([])
     const [showProjectForm, setShowProjectForm] = useState(false)
+    const [showServiceForm, setShowServiceForm] = useState(false)
+    const [message, setMessage] = useState()
+    const [type, setType] = useState()
 
     useEffect(()=>{
         setTimeout( ()=>{
@@ -29,13 +34,44 @@ function Project(){
         }, 500)
     }, [id])
 
+    function editPost(project){
+        setMessage('')
+
+        if(project.budget < project.cost){
+            setMessage('O orçamento não pode ser menor que o custo do projeto!')
+            setType('error')
+            return false
+        }
+
+        fetch(`http://localhost:5000/projects/${project.id}`,{
+            method : "PATCH",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(project),
+        })
+        .then( (resp) => resp.json())
+        .then ((data) =>{
+            setProject(data)
+            setShowProjectForm(false)
+            setMessage('Projeto atualizado!')
+            setType('success')
+        })
+    }
+
     function toggleProjectForm(){
         setShowProjectForm(!showProjectForm)
     }
 
+    function toggleServiceForm(){
+        setShowServiceForm(!showServiceForm)
+    }
+
+
     return <>{project.name ? 
     <div className={styles.project_details}>
         <Container customClass ="column">
+            {message && <Message type={type} msg={message} />}
             <div className={styles.details_container}>
                 <h1>Projecto: {project.name}</h1>
                 <button className={styles.btn} onClick={toggleProjectForm}>{!showProjectForm ? 'Editar Projeto' : 'Fechar'}</button>
@@ -53,10 +89,26 @@ function Project(){
                     </div>
                 ) : (
                     <div className={styles.project_info}>
-                        <p>detalhes do projeto</p>
+                        <ProjectForm handleSubmit={editPost}
+                        btnText="Concluir edição"
+                        projectData={project}
+                        />
                     </div>
                 )}
             </div>
+            <div className={styles.service_form_container}>
+                <h2>Adicione um serviço:</h2>
+                <button className={styles.btn} onClick={toggleServiceForm}>
+                    {!showServiceForm ? 'Adicionar serviço' : 'Fechar'}
+                </button>
+                <div className={styles.project_info}>
+                    {showServiceForm && <div>Formulário do serviço</div>}
+                </div>
+            </div>
+            <h2>Serviço</h2>
+            <Container customClass="start">
+                <p>Itens de serviços</p>
+            </Container>
         </Container>
     </div> : <Loading/>}</>
 }
