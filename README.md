@@ -26,20 +26,6 @@
 - ⚡ **React Router DOM** - Gerenciamento de rotas  
 
 ---
-🚀 Principais Funcionalidades
-✔️ Criar novos projetos com nome, orçamento e categoria
-✔️ Visualizar todos os projetos cadastrados
-✔️ Editar informações dos projetos
-✔️ Excluir projetos
-✔️ Simulação de API usando JSON Server
----
-##📝 Roadmap - Melhorias Futuras
-🔹 Adicionar sistema de login e autenticação 🔒
-🔹 Criar um banco de dados real para armazenar projetos 📂
-🔹 Melhorar UI/UX e responsividade 📱
----
-##🤝 Contribuição
-Quer contribuir? Sinta-se à vontade para fazer um fork deste repositório, criar um branch e abrir um pull request!
 
 ## 🛠️ Como Rodar o Projeto?  
 
@@ -68,5 +54,21 @@ npm start
 
 # 6. Abra no navegador:
 http://localhost:3000
+```
 
+---
+🚀 **Principais Funcionalidades**
+✔️ Criar novos projetos com nome, orçamento e categoria  
+✔️ Visualizar todos os projetos cadastrados  
+✔️ Editar informações dos projetos  
+✔️ Excluir projetos  
+✔️ Simulação de API usando JSON Server  
+
+📝 **Roadmap - Melhorias Futuras**
+🔹 Adicionar sistema de login e autenticação 🔒  
+🔹 Criar um banco de dados real para armazenar projetos 📂  
+🔹 Melhorar UI/UX e responsividade 📱  
+
+🤝 **Contribuição**  
+Quer contribuir? Sinta-se à vontade para fazer um fork deste repositório, criar um branch e abrir um pull request!
 
