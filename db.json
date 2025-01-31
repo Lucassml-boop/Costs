@@ -1,13 +1,13 @@
 {
   "projects": [
     {
-      "id": "e156",
-      "name": "siatua",
-      "budget": "12222",
-      "category_id": "1",
+      "id": "1268",
+      "name": "test lolo2",
+      "budget": "1000003",
+      "category_id": "2",
       "category": {
-        "id": "1",
-        "name": "Infra"
+        "id": "2",
+        "name": "Desenvolvimento"
       },
       "cost": 0,
       "services": []

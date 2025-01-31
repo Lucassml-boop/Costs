@@ -7,6 +7,7 @@ import Loading from '../layouts/Loading'
 import Container from '../layouts/Container'
 import ProjectForm from '../projects/ProjectForm'
 import Message from '../layouts/Message'
+import ServiceForm from '../service/ServiceForm'
 
 
 
@@ -57,6 +58,11 @@ function Project(){
             setMessage('Projeto atualizado!')
             setType('success')
         })
+        .catch((err) => console.error(err))
+    }
+
+    function createService(){
+        
     }
 
     function toggleProjectForm(){
@@ -98,11 +104,17 @@ function Project(){
             </div>
             <div className={styles.service_form_container}>
                 <h2>Adicione um serviço:</h2>
-                <button className={styles.btn} onClick={toggleServiceForm}>
+                <button className={styles.btn_d} onClick={toggleServiceForm}>
                     {!showServiceForm ? 'Adicionar serviço' : 'Fechar'}
                 </button>
                 <div className={styles.project_info}>
-                    {showServiceForm && <div>Formulário do serviço</div>}
+                    {showServiceForm && (
+                        <ServiceForm
+                            handleSubmit={createService}
+                            btnText="Adicionar Serviço"
+                            project={project}
+                        />
+                    )}
                 </div>
             </div>
             <h2>Serviço</h2>

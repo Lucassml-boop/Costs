@@ -26,7 +26,7 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: em;
+    
 }
 
 .btn {
@@ -38,7 +38,20 @@
     cursor: pointer;
     max-height: 40px;
     border: none;
-    margin-left: 43em;
+    margin-left: 50em;
+    
+}
+
+.btn_d{
+    background-color: #222;
+    color: #fff;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    transition: 0.5s;
+    cursor: pointer;
+    max-height: 40px;
+    border: none;
+    margin-left: 60em;
 }
 
 .btn:hover {
