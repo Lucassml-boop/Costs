@@ -3,7 +3,7 @@ import {parse, v4 as uuidv4} from 'uuid'
 import styles from './Project.module.css'
 
 import {useParams} from 'react-router-dom'
-import {useState, useEffect, use} from "react"
+import {useState, useEffect} from "react"
 
 import Loading from '../layouts/Loading'
 import Container from '../layouts/Container'
@@ -64,7 +64,11 @@ function Project(){
     }
 
     function createService(project){
-        const lastService = project.services[project.services.length - 1]
+        if (!project.services) {
+            project.services = [];
+        }
+        
+        const lastService = project.services[project.services.length - 1];
         lastService.id = uuidv4()
 
         const lastServiceCost = lastService.cost

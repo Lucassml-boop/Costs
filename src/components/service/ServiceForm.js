@@ -8,12 +8,21 @@ import styles from '../projects/ProjectForm.module.css'
 
 function ServiceForm({ handleSubmit, btnText, projectData }){
 
-    const [service, setService] = useState({})
+    const [service, setService] = useState({
+        name: '',
+        cost: '',
+        description: ''
+    })
 
-    function submit(e){
-        e.preventDefault()
-        projectData.service.push(service)
-        handleSubmit(projectData)
+    function submit(e) {
+        e.preventDefault();
+    
+        const updatedProject = { 
+            ...projectData, 
+            services: projectData.services ? [...projectData.services, service] : [service]
+        };
+    
+        handleSubmit(updatedProject);
     }
 
     function handleChange(e){
@@ -29,6 +38,7 @@ function ServiceForm({ handleSubmit, btnText, projectData }){
                 name="name"
                 placeholder="Insira o nome do serviço"
                 handleOnChange={handleChange}
+                value={service.name}
             />
             <Input
                 type="number"
@@ -36,6 +46,7 @@ function ServiceForm({ handleSubmit, btnText, projectData }){
                 name="cost"
                 placeholder="Insira o valor do serviço"
                 handleOnChange={handleChange}
+                value={service.cost}
             />
             <Input
                 type="text"
@@ -43,6 +54,7 @@ function ServiceForm({ handleSubmit, btnText, projectData }){
                 name="description"
                 placeholder="Descreva o serviço"
                 handleOnChange={handleChange}
+                value={service.description}
             />
             <SubmitButton text={btnText}/>
          </form>
