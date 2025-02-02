@@ -20,9 +20,9 @@ function ServiceForm({ handleSubmit, btnText, projectData }){
         const updatedProject = { 
             ...projectData, 
             services: projectData.services ? [...projectData.services, service] : [service]
-        };
-    
-        handleSubmit(updatedProject);
+        }
+        projectData.services.push(service)
+        handleSubmit(updatedProject)
     }
 
     function handleChange(e){

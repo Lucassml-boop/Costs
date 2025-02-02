@@ -65,10 +65,11 @@ function Project(){
 
     function createService(project){
         if (!project.services) {
-            project.services = [];
+            project.services = []
         }
         
-        const lastService = project.services[project.services.length - 1];
+        const lastService = project.services[project.services.length - 1]
+        
         lastService.id = uuidv4()
 
         const lastServiceCost = lastService.cost
