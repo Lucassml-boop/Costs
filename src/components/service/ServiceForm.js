@@ -8,25 +8,28 @@ import styles from '../projects/ProjectForm.module.css'
 
 function ServiceForm({ handleSubmit, btnText, projectData }){
 
-    const [service, setService] = useState({
-        name: '',
-        cost: '',
-        description: ''
-    })
+    const [service, setService] = useState({})
 
     function submit(e) {
-        e.preventDefault();
-    
-        const updatedProject = { 
-            ...projectData, 
-            services: projectData.services ? [...projectData.services, service] : [service]
+        e.preventDefault()
+
+        if (!service.name || !service.cost || !service.description) {
+            alert("Preencha todos os campos antes de adicionar o serviço.")
+            return
         }
-        projectData.services.push(service)
-        handleSubmit(updatedProject)
+    
+        if(!projectData.services){
+            projectData.services = []
+        }
+        const newService = { ...service, id: crypto.randomUUID() }
+        projectData.services.push(newService)
+        handleSubmit(projectData)
+
+        setService({ name: "", cost: "", description: "" })
     }
 
     function handleChange(e){
-        setService({...service,[e.target.name]: e.target.value})
+        setService({ ...service, [e.target.name]: e.target.value})
     }
 
 
@@ -38,7 +41,7 @@ function ServiceForm({ handleSubmit, btnText, projectData }){
                 name="name"
                 placeholder="Insira o nome do serviço"
                 handleOnChange={handleChange}
-                value={service.name}
+                value={service.name || ''}
             />
             <Input
                 type="number"
@@ -46,7 +49,7 @@ function ServiceForm({ handleSubmit, btnText, projectData }){
                 name="cost"
                 placeholder="Insira o valor do serviço"
                 handleOnChange={handleChange}
-                value={service.cost}
+                value={service.cost || ""}
             />
             <Input
                 type="text"
@@ -54,7 +57,7 @@ function ServiceForm({ handleSubmit, btnText, projectData }){
                 name="description"
                 placeholder="Descreva o serviço"
                 handleOnChange={handleChange}
-                value={service.description}
+                value={service.description || ""}
             />
             <SubmitButton text={btnText}/>
          </form>

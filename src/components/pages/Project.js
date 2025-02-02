@@ -16,7 +16,7 @@ import ServiceForm from '../service/ServiceForm'
 function Project(){
     const {id} = useParams()
 
-    const [project, setProject] = useState([])
+    const [project, setProject] = useState({})
     const [showProjectForm, setShowProjectForm] = useState(false)
     const [showServiceForm, setShowServiceForm] = useState(false)
     const [message, setMessage] = useState()
@@ -32,8 +32,9 @@ function Project(){
             })
             .then((resp) => resp.json())
             .then((data) => {
-                setProject(data)
+                setProject({ ...data, services: data.services || [] })
             })
+            .catch((err) => console.error(err))
         }, 500)
     }, [id])
 
@@ -45,8 +46,43 @@ function Project(){
             setType('error')
             return false
         }
+    }
 
-        fetch(`http://localhost:5000/projects/${project.id}`,{
+    function createService(project){
+        setMessage('')
+        if (!project.services) {
+            project.services = []
+        }
+
+        if (project.services.length === 0) {
+            setMessage('Nenhum serviço foi adicionado!')
+            setType('error')
+            return 
+        }
+        const lastService = project.services[project.services.length - 1]
+
+        if (!lastService || !lastService.cost) {
+            setMessage('Erro ao adicionar serviço. Preencha os campos corretamente.')
+            setType('error')
+            return 
+        }
+        const newService = { ...lastService, id: uuidv4() }
+
+        const newCost = (parseFloat(project.cost) || 0) + parseFloat(newService.cost)
+
+        // maxium value validation
+        if (newCost > parseFloat(project.budget)) {
+            setMessage('Orçamento ultrapassado, verifique o valor do serviço')
+            setType('error')
+            return 
+        }
+
+        const updatedProject = {
+            ...project,
+            cost: newCost,
+            services: [...project.services, newService]
+        }
+        fetch(`http://localhost:5000/projects/${project.id }`,{
             method : "PATCH",
             headers: {
                 'Content-Type': 'application/json',
@@ -61,29 +97,11 @@ function Project(){
             setType('success')
         })
         .catch((err) => console.error(err))
-    }
-
-    function createService(project){
-        if (!project.services) {
-            project.services = []
-        }
         
-        const lastService = project.services[project.services.length - 1]
         
-        lastService.id = uuidv4()
+}
 
-        const lastServiceCost = lastService.cost
 
-        const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost)
-
-        // maxium value validation
-        if(newCost > parseFloat(project.budget)){
-            setMessage('Orçamento ultrapassado, verifique o valor do serviço')
-            setType('error')
-            project.service.pop()
-            return false
-        }
-    }
 
     function toggleProjectForm(){
         setShowProjectForm(!showProjectForm)
@@ -132,7 +150,7 @@ function Project(){
                         <ServiceForm
                             handleSubmit={createService}
                             btnText="Adicionar Serviço"
-                            project={project}
+                            projectData={project} 
                         />
                     )}
                 </div>
